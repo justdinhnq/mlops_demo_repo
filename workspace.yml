@@ -1,0 +1,8 @@
+$schema: https://azuremlschemas.azureedge.net/latest/workspace.schema.json
+name: ws01
+location: eastus
+display_name: workspace demo
+description: a YML configuration for a basic workspace.
+hbi_workspace: false
+tags:
+  purpose: demonstration
