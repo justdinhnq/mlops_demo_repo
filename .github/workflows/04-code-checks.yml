@@ -5,7 +5,7 @@ on:
 
 jobs:
   job1:
-    name: linting
+    name: linting in Manual Code Checks workflow
     runs-on: ubuntu-latest
     steps:
     - name: Check out repo
