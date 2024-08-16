@@ -13,16 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-
-      - name: Install Wheel
-        run: |
-          pip install wheel
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
@@ -39,16 +35,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-
-      - name: Install Wheel
-        run: |
-          pip install wheel
+          python-version: '3.8'
 
       - name: Install dependencies from requirements.txt
         run: |
