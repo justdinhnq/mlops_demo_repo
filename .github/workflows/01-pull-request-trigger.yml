@@ -20,9 +20,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Cython
+      - name: Install Wheel
         run: |
-          pip install --upgrade cython
+          pip install wheel
 
       - name: Install dependencies
         run: |
@@ -46,9 +46,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Cython
+      - name: Install Wheel
         run: |
-          pip install --upgrade cython
+          pip install wheel
 
       - name: Install dependencies from requirements.txt
         run: |
