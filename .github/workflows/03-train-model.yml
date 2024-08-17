@@ -22,18 +22,14 @@ jobs:
           python-version: '3.8'
 
       - name: Install Azure CLI and ML extension
-        run: | 
-          python -m pip install --upgrade pip
-          pip install azure-cli
-          az extension add -n ml -y
+        run: az extension add -n ml -y
 
       - name: Azure login
         uses: azure/login@v2 
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Run experiment job
-        run: |
-          run: az ml job create --file src/job_compute_cluster.yml --resource-group resGrp --workspace-name ws01
+        run: az ml job create --file src/job_compute_cluster.yml --resource-group resGrp --workspace-name ws01
   
   production:
     name: Train Model in Production Environment
@@ -59,5 +55,4 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Run experiment job
-        run: |
-          run: az ml job create --file src/job_compute_cluster_prod.yml --resource-group resGrp --workspace-name ws01 --stream
+        run: az ml job create --file src/job_compute_cluster_prod.yml --resource-group resGrp --workspace-name ws01 --stream
