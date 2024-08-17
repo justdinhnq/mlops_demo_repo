@@ -9,6 +9,9 @@ jobs:
   experiment:
     name: Train Model in Development Environment
     runs-on: ubuntu-latest
+    environment: 
+      name: Development
+
     steps:
       - name: Checkout code
         uses: actions/checkout@main
@@ -33,6 +36,8 @@ jobs:
     name: Train Model in Production Environment
     runs-on: ubuntu-latest
     needs: experiment
+    environment:
+      name: Production
 
     steps:
       - name: Checkout code
