@@ -33,8 +33,9 @@ jobs:
       - name: Register the Model
         run: |
           MODEL_NAME="diabetes-model"
-          MODEL_PATH="azureml:azureml_helpful_airport_pkrmq6dzhj_output_mlflow_log_model_455706061:1"
-          az ml model create --name $MODEL_NAME --path $MODEL_PATH --resource-group resGrp --workspace-name ws01 
+          RUN_ID="helpful_airport_pkrmq6dzhj"
+          MODEL_PATH="amlflow_log_model_455706061"
+          az ml model create --name $MODEL_NAME --path azureml://jobs/$RUN_ID/outputs/artifacts/$MODEL_PATH
 
       - name: Deploy Model to Endpoint
         run: |
