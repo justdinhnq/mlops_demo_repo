@@ -44,10 +44,10 @@ jobs:
           ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Create an online endpoint
-          az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yaml
+          az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml
 
           # Deploy the model to the endpoint
-          az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME --model $MODEL_NAME:1 --all-traffic
+          az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME --model $MODEL_NAME:3 --all-traffic
 
       - name: Get Endpoint Details
         run: |
