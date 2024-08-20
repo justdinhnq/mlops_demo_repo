@@ -32,8 +32,9 @@ jobs:
 
       - name: Register the Model
         run: |
+          MODEL_NAME="diabetes-model"
           MODEL_PATH="azureml:/subscriptions/3be8cb13-1fd0-400f-85d2-1d617f572813/resourceGroups/resGrp/providers/Microsoft.MachineLearningServices/workspaces/ws01/codes/cc765684-fac1-49e4-b17e-64d38c5e3ce2/versions/1"
-          az ml model register --name diabetes-model - path $MODEL_PATH --model-framework MLFlow
+          az ml model create --name $MODEL_NAME --type "mlflow_model" --path $MODEL_PATH
 
       - name: Deploy Model to Endpoint
         run: |
@@ -42,7 +43,7 @@ jobs:
           ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Create an online endpoint
-          az ml online-endpoint create --name $ENDPOINT_NAME --auth-mode key
+          az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yaml
 
           # Deploy the model to the endpoint
           az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME --model $MODEL_NAME:1 --all-traffic
