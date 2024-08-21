@@ -54,10 +54,23 @@ jobs:
         run: |
           export ENDPOINT_NAME="diabetes-endpoint"
           az ml online-endpoint update --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01
+      
+      - name: Check if Deployment Exists
+        id: check_deployment
+        run: |
+          export DEPLOYMENT_NAME="blue"
+          export ENDPOINT_NAME="diabetes-endpoint"
+          if az ml online-deployment show --name $DEPLOYMENT_NAME --endpoint-name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01 > /dev/null 2>&1; then echo "deployment_exists=true" >> $GITHUB_ENV; else echo "deployment_exists=false" >> $GITHUB_ENV; fi
 
-      - name: Deploy Model to Endpoint
+      - name: Create Deployment
+        if: env.deployment_exists == 'false'
         run: |
           az ml online-deployment create --file mlflow-deployment.yml --resource-group resGrp --workspace-name ws01 --all-traffic
+
+      - name: Update Deployment
+        if: env.deployment_exists == 'true'
+        run: |
+          az ml online-deployment update --file mlflow-deployment.yml --resource-group resGrp --workspace-name ws01
 
       - name: Get Endpoint Details
         run: |
