@@ -41,14 +41,14 @@ jobs:
         run: |
           # Register the latest model from the MLflow run
           MODEL_NAME="diabetes-model"
-          ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
+          export ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Create an online endpoint
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
 
       - name: Deploy Model to Endpoint
         run: |
-          ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
+          # ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Deploy the model to the endpoint
           az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME -f mlflow-deployment.yml --all-traffic
