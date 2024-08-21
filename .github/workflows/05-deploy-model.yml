@@ -37,7 +37,7 @@ jobs:
           MODEL_PATH="model"
           az ml model create --name $MODEL_NAME --type "mlflow_model" --path azureml://jobs/$RUN_ID/outputs/artifacts/$MODEL_PATH --resource-group resGrp --workspace-name ws01
 
-      - name: Create Online Endpoint
+      - name: Deploy Model to Endpoint
         run: |
           # Register the latest model from the MLflow run
           MODEL_NAME="diabetes-model"
@@ -45,10 +45,6 @@ jobs:
 
           # Create an online endpoint
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
-
-      - name: Deploy Model to Endpoint
-        run: |
-          export ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Deploy the model to the endpoint
           az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME -f mlflow-deployment.yml  --resource-group resGrp --workspace-name ws01 --all-traffic
