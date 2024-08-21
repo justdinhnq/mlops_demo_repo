@@ -41,16 +41,16 @@ jobs:
         id: check_endpoint
         run: |
           export ENDPOINT_NAME="diabetes-endpoint"
-          az ml online-endpoint show --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01 > /dev/null 2>&1 || echo "Endpoint does not exist" 
+          if az ml online-endpoint show --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01 > /dev/null 2>&1; then echo "exists=true" >> $GITHUB_ENV; else echo "exists=false" >> $GITHUB_ENV; fi
 
       - name: Create Endpoint
-        if: steps.check_endpoint.outputs.Endpoint == ''
+        if: env.exists == 'false'
         run: |
           export ENDPOINT_NAME="diabetes-endpoint"
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
 
       - name: Update Endpoint
-        if: steps.check_endpoint.outputs.Endpoint != ''
+        if: env.exists == 'true'
         run: |
           export ENDPOINT_NAME="diabetes-endpoint"
           az ml online-endpoint update --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01
