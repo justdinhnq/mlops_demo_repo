@@ -2,7 +2,6 @@ $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.sch
 model:
   name: diabetes-model
   version: 1
-  path: azureml://jobs/helpful_airport_pkrmq6dzhj/outputs/artifacts/model
   type: mlflow_model
 instance_type: STANDARD_DS11_v2
 instance_count: 1
