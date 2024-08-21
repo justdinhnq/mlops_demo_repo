@@ -37,16 +37,26 @@ jobs:
           MODEL_PATH="model"
           az ml model create --name $MODEL_NAME --type "mlflow_model" --path azureml://jobs/$RUN_ID/outputs/artifacts/$MODEL_PATH --resource-group resGrp --workspace-name ws01
 
-      - name: Deploy Model to Endpoint
+      - name: Check if Endpoint Exists
+        id: check_endpoint
         run: |
-          # Register the latest model from the MLflow run
-          MODEL_NAME="diabetes-model"
           export ENDPOINT_NAME="diabetes-endpoint"
+          az ml online-endpoint show --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01 > /dev/null 2>&1 || echo "Endpoint does not exist" 
 
-          # Create an online endpoint
+      - name: Create Endpoint
+        if: steps.check_endpoint.outputs.Endpoint == ''
+        run: |
+          export ENDPOINT_NAME="diabetes-endpoint"
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
 
-          # Deploy the model to the endpoint
+      - name: Update Endpoint
+        if: steps.check_endpoint.outputs.Endpoint != ''
+        run: |
+          export ENDPOINT_NAME="diabetes-endpoint"
+          az ml online-endpoint update --name $ENDPOINT_NAME --resource-group resGrp --workspace-name ws01
+
+      - name: Deploy Model to Endpoint
+        run: |
           az ml online-deployment create --file mlflow-deployment.yml --resource-group resGrp --workspace-name ws01 --all-traffic
 
       - name: Get Endpoint Details
@@ -54,6 +64,3 @@ jobs:
           export ENDPOINT_NAME="diabetes-endpoint"
           SCORING_URI=$(az ml online-endpoint show --name $ENDPOINT_NAME --query scoring_uri -o tsv)
           echo "Scoring URI: $SCORING_URI"
-
-
-        
