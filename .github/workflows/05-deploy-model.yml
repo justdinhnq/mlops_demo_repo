@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy Model to Endpoint
         run: |
-          # ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
+          export ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
 
           # Deploy the model to the endpoint
           az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME -f mlflow-deployment.yml --all-traffic
