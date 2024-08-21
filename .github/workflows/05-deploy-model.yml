@@ -47,7 +47,7 @@ jobs:
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
 
           # Deploy the model to the endpoint
-          az ml online-deployment create --name blue --endpoint $ENDPOINT_NAME -f mlflow-deployment.yml  --resource-group resGrp --workspace-name ws01 --all-traffic
+          az ml online-deployment create --file mlflow-deployment.yml --resource-group resGrp --workspace-name ws01 --all-traffic
 
       - name: Get Endpoint Details
         run: |
