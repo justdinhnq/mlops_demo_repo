@@ -41,7 +41,7 @@ jobs:
         run: |
           # Register the latest model from the MLflow run
           MODEL_NAME="diabetes-model"
-          export ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
+          export ENDPOINT_NAME="diabetes-endpoint"
 
           # Create an online endpoint
           az ml online-endpoint create --name $ENDPOINT_NAME -f create-endpoint.yml --resource-group resGrp --workspace-name ws01
@@ -51,7 +51,7 @@ jobs:
 
       - name: Get Endpoint Details
         run: |
-          export ENDPOINT_NAME="diabetes-endpoint-$(date +%s)"
+          export ENDPOINT_NAME="diabetes-endpoint"
           SCORING_URI=$(az ml online-endpoint show --name $ENDPOINT_NAME --query scoring_uri -o tsv)
           echo "Scoring URI: $SCORING_URI"
 
