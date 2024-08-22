@@ -1,4 +1,4 @@
 $schema: https://azuremlschemas.azureedge.net/latest/computeInstance.schema.json 
 name: compute001
 type: computeinstance
-size: STANDARD_DS11_v2
+size: Standard_E2s_v3
